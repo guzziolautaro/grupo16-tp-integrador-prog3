@@ -1,4 +1,4 @@
-exports.getProductos = (req, res) => {
+exports.getProductosActivos = (req, res) => {
     try {
         return res.status(200).json({
             status: "success",

@@ -16,11 +16,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-const apiController = require('./controllers/api.controller');
-
-router.get('/', apiController.getProductos);
-
-app.use('/api', router);
+const apiRoutes = require('./routes/api.routes');
+app.use('/api', apiRoutes); 
 
 sequelize.sync({ alter: true })
     .then(async () => {
@@ -29,8 +26,8 @@ sequelize.sync({ alter: true })
         //test: remove when no longer needed
         const defaultAdmin = await Usuario.findOne({ where: { email: 'admin@autoservicio.com' } });
         if (!defaultAdmin) {
-            await Usuario.create({ 
-                email: 'admin@autoservicio.com', 
+            await Usuario.create({
+                email: 'admin@autoservicio.com',
                 password: 'admin1234'
             });
             console.log("Test account generated: admin@autoservicio.com / admin1234");
