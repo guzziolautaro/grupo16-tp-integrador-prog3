@@ -24,7 +24,7 @@ if (nombreMostrado && nombreGuardado) {
     nombreMostrado.textContent = nombreConMayusculas;
 }
 
-const productos = [
+/*const productos = [
     {
         id: 1,
         nombre: "Placa de video RTX 4060",
@@ -103,7 +103,68 @@ function mostrarProductos() {
     });
 }
 
-mostrarProductos();
+mostrarProductos();*/
+
+let productos = [];
+
+async function cargarProductos() {
+    const contenedorComponentes = document.getElementById("contenedorComponentes");
+    const contenedorPerifericos = document.getElementById("contenedorPerifericos");
+
+    if (!contenedorComponentes || !contenedorPerifericos) {
+        return;
+    }
+
+    try {
+        const respuesta = await fetch("http://localhost:3000/api/productos");
+
+        if (!respuesta.ok) {
+            throw new Error("Error al obtener los productos");
+        }
+
+        productos = await respuesta.json();
+
+        mostrarProductos();
+    } catch (error) {
+        console.error(error);
+        contenedorComponentes.innerHTML = "<p>No se pudieron cargar los productos.</p>";
+    }
+}
+
+function mostrarProductos() {
+    const contenedorComponentes = document.getElementById("contenedorComponentes");
+    const contenedorPerifericos = document.getElementById("contenedorPerifericos");
+
+    if (!contenedorComponentes || !contenedorPerifericos) {
+        return;
+    }
+
+    contenedorComponentes.innerHTML = "";
+    contenedorPerifericos.innerHTML = "";
+
+    productos
+        .filter(producto => producto.activo)
+        .forEach(producto => {
+            const tarjeta = document.createElement("div");
+            tarjeta.classList.add("tarjeta-producto");
+
+            tarjeta.innerHTML = `
+                <img src="${producto.imagen}" alt="${producto.nombre}">
+                <h4>${producto.nombre}</h4>
+                <p>Categoría: ${producto.categoria}</p>
+                <p class="precio">Precio: $${producto.precio}</p>
+                <button onclick="agregarAlCarrito(${producto.id})">Agregar al carrito</button>
+            `;
+
+            if (producto.categoria === "Componentes") {
+                contenedorComponentes.appendChild(tarjeta);
+            } else if (producto.categoria === "Periféricos") {
+                contenedorPerifericos.appendChild(tarjeta);
+            }
+        });
+}
+
+cargarProductos();
 
 function agregarAlCarrito(idProducto) {
     const productoEncontrado = productos.find(producto => producto.id === idProducto);

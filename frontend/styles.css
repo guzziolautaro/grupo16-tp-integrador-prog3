@@ -233,26 +233,48 @@ nav a:hover {
 }
 
 @media print {
+    @page {
+        size: A4 portrait;
+        margin: 15mm;
+    }
+
     header,
     nav,
     button {
         display: none;
     }
 
+    * {
+        box-sizing: border-box;
+    }
+
     body {
         background: white;
+        margin: 0;
+        padding: 0;
     }
 
     main {
         box-shadow: none;
-        margin: 0;
+        margin: 0 auto;
+        padding: 0;
         width: 100%;
-        max-width: none;
+        max-width: 100%;
     }
 
     .ticket {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 20px;
         border: 2px dashed #111827;
         box-shadow: none;
-        max-width: 100%;
+        overflow: hidden;
+    }
+
+    .ticket-total {
+        text-align: right;
+        padding-right: 10px;
+        font-size: 18px;
     }
 }
