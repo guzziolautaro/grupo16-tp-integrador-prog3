@@ -29,8 +29,35 @@
 
         <h3 id="totalCarrito"></h3>
 
-        <button>Finalizar compra</button>
+
+        <button onclick="finalizarCompra()">Finalizar compra</button>
     </main>
+    
+    <div id="modalConfirmacion" class="modal">
+        <div class="modal-contenido">
+            <h3>Confirmar compra</h3>
+            <p>¿Estás seguro de que querés finalizar la compra?</p>
+
+            <div class="modal-botones">
+                <button onclick="confirmarCompra()">Sí, confirmar</button>
+                <button class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalCarritoVacio" class="modal">
+        <div class="modal-contenido">
+            <h3>Carrito vacío</h3>
+            <p>No podés finalizar una compra sin productos en el carrito.</p>
+
+            <div class="modal-botones">
+                <button onclick="cerrarModalCarritoVacio()">Entendido</button>
+                <a href="productos.html">
+                    <button>Tienda</button>
+                </a>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

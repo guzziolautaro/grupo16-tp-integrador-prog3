@@ -232,3 +232,35 @@ if (linkTienda && !usuarioLogueado) {
 if (linkCarrito && !usuarioLogueado) {
     linkCarrito.style.display = "none";
 }
+
+function finalizarCompra() {
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    if (carrito.length === 0) {
+        const modalCarritoVacio = document.getElementById("modalCarritoVacio");
+        modalCarritoVacio.style.display = "flex";
+        return;
+    }
+
+    const modal = document.getElementById("modalConfirmacion");
+    modal.style.display = "flex";
+}
+
+function cerrarModal() {
+    const modal = document.getElementById("modalConfirmacion");
+    modal.style.display = "none";
+}
+
+function confirmarCompra() {
+    alert("Compra finalizada correctamente.");
+
+    localStorage.removeItem("carrito");
+
+    cerrarModal();
+    mostrarCarrito();
+}
+
+function cerrarModalCarritoVacio() {
+    const modalCarritoVacio = document.getElementById("modalCarritoVacio");
+    modalCarritoVacio.style.display = "none";
+}
