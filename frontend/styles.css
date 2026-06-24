@@ -92,3 +92,12 @@ img {
     font-weight: bold;
     font-size: 18px;
 }
+
+.btn-eliminar {
+    background-color: #dc2626;
+    margin-top: 10px;
+}
+
+.btn-eliminar:hover {
+    background-color: #b91c1c;
+}

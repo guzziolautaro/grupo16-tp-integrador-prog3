@@ -169,6 +169,10 @@ function mostrarCarrito() {
             </div>
 
             <p class="precio">Subtotal: $${subtotal}</p>
+
+            <button class="btn-eliminar" onclick="eliminarProducto(${producto.id})">
+                Eliminar
+            </button>
         `;
 
         contenedorCarrito.appendChild(itemCarrito);
@@ -201,6 +205,16 @@ function restarCantidad(idProducto) {
     if (productoEnCarrito && productoEnCarrito.cantidad > 1) {
         productoEnCarrito.cantidad--;
     }
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+
+    mostrarCarrito();
+}
+
+function eliminarProducto(idProducto) {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    carrito = carrito.filter(producto => producto.id !== idProducto);
 
     localStorage.setItem("carrito", JSON.stringify(carrito));
 
