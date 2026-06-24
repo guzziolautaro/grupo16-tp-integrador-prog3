@@ -103,6 +103,8 @@ function mostrarProductos() {
     });
 }
 
+mostrarProductos();
+
 function agregarAlCarrito(idProducto) {
     const productoEncontrado = productos.find(producto => producto.id === idProducto);
 
@@ -127,4 +129,46 @@ function agregarAlCarrito(idProducto) {
     alert(`Agregaste al carrito: ${productoEncontrado.nombre}`);
 }
 
-mostrarProductos();
+
+function mostrarCarrito() {
+    const contenedorCarrito = document.getElementById("contenedorCarrito");
+    const totalCarrito = document.getElementById("totalCarrito");
+
+    if (!contenedorCarrito || !totalCarrito) {
+        return;
+    }
+
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    contenedorCarrito.innerHTML = "";
+
+    if (carrito.length === 0) {
+        contenedorCarrito.innerHTML = "<p>El carrito está vacío.</p>";
+        totalCarrito.textContent = "Total: $0";
+        return;
+    }
+
+    let total = 0;
+
+    carrito.forEach(producto => {
+        const subtotal = producto.precio * producto.cantidad;
+        total += subtotal;
+
+        const itemCarrito = document.createElement("div");
+        itemCarrito.classList.add("tarjeta-producto");
+
+        itemCarrito.innerHTML = `
+            <img src="${producto.imagen}" alt="${producto.nombre}">
+            <h4>${producto.nombre}</h4>
+            <p>Precio unitario: $${producto.precio}</p>
+            <p>Cantidad: ${producto.cantidad}</p>
+            <p class="precio">Subtotal: $${subtotal}</p>
+        `;
+
+        contenedorCarrito.appendChild(itemCarrito);
+    });
+
+    totalCarrito.textContent = `Total: $${total}`;
+}
+
+mostrarCarrito();
