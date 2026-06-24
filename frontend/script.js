@@ -220,3 +220,15 @@ function eliminarProducto(idProducto) {
 
     mostrarCarrito();
 }
+
+const linkTienda = document.getElementById("linkTienda");
+const linkCarrito = document.getElementById("linkCarrito");
+const usuarioLogueado = localStorage.getItem("nombreUsuario");
+
+if (linkTienda && !usuarioLogueado) {
+    linkTienda.style.display = "none";
+}
+
+if (linkCarrito && !usuarioLogueado) {
+    linkCarrito.style.display = "none";
+}
