@@ -26,6 +26,7 @@ sequelize.sync({ alter: true })
     .then(async () => {
         console.log("MySQL Database Tables synchronized successfully");
         
+        //test: remove when no longer needed
         const defaultAdmin = await Usuario.findOne({ where: { email: 'admin@autoservicio.com' } });
         if (!defaultAdmin) {
             await Usuario.create({ 
