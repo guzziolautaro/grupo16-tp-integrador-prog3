@@ -1,11 +1,15 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
-const sequelize = new Sequelize('autoservicio_db', 'root', 'TU_PASSWORD_AQUI', {
-    host: 'localhost',
-    dialect: 'mysql',
-    logging: false
-});
-
+const sequelize = new Sequelize(
+    process.env.DB_NAME, 
+    process.env.DB_USER, 
+    process.env.DB_PASSWORD, 
+    {
+        host: process.env.DB_HOST,
+        dialect: 'mysql',
+        logging: false
+    }
+);
 const Producto = sequelize.define('Producto', {
     nombre: { type: DataTypes.STRING, allowNull: false },
     categoria: { type: DataTypes.STRING, allowNull: false },
