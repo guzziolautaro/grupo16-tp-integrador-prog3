@@ -321,3 +321,15 @@ function mostrarTicket() {
 }
 
 mostrarTicket();
+
+function imprimirTicket() {
+    window.print();
+}
+
+function reiniciarCompra() {
+    localStorage.removeItem("nombreUsuario");
+    localStorage.removeItem("carrito");
+    localStorage.removeItem("ultimaCompra");
+
+    window.location.href = "index.html";
+}

@@ -231,3 +231,28 @@ nav a:hover {
     text-align: right;
     color: #2563eb;
 }
+
+@media print {
+    header,
+    nav,
+    button {
+        display: none;
+    }
+
+    body {
+        background: white;
+    }
+
+    main {
+        box-shadow: none;
+        margin: 0;
+        width: 100%;
+        max-width: none;
+    }
+
+    .ticket {
+        border: 2px dashed #111827;
+        box-shadow: none;
+        max-width: 100%;
+    }
+}
