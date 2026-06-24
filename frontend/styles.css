@@ -31,3 +31,10 @@ button {
     padding: 10px 20px;
     cursor: pointer;
 }
+
+img {
+    width: 100%;
+    max-width: 180px;
+    height: 140px;
+    object-fit: contain;
+}

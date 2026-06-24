@@ -23,3 +23,77 @@ if (nombreMostrado && nombreGuardado) {
 
     nombreMostrado.textContent = nombreConMayusculas;
 }
+
+const productos = [
+    {
+        id: 1,
+        nombre: "Placa de video RTX 4060",
+        categoria: "Componentes",
+        precio: 450000,
+        imagen: "img/Placa_de_Video_RTX_4060.jpg"
+    },
+    {
+        id: 2,
+        nombre: "Procesador Ryzen 5 5600",
+        categoria: "Componentes",
+        precio: 210000,
+        imagen: "img/Procesador_Ryzen_5_5600.jpg"
+    },
+    {
+        id: 3,
+        nombre: "Memoria RAM 16GB DDR4",
+        categoria: "Componentes",
+        precio: 65000,
+        imagen: "img/Memoria_Ram_16gb_ddr4.jpg"
+    },
+    {
+        id: 4,
+        nombre: "Teclado Redragon",
+        categoria: "Periféricos",
+        precio: 75000,
+        imagen: "img/Teclado_Redragon.jpg"
+    },
+    {
+        id: 5,
+        nombre: "Mouse Logitech",
+        categoria: "Periféricos",
+        precio: 35000,
+        imagen: "img/Mouse_Logitech.jpg"
+    },
+    {
+        id: 6,
+        nombre: "Auriculares Hyperx",
+        categoria: "Periféricos",
+        precio: 55000,
+        imagen: "img/Auriculares_Hyperx.jpg"
+    }
+];
+
+function mostrarProductos() {
+    const contenedorComponentes = document.getElementById("contenedorComponentes");
+    const contenedorPerifericos = document.getElementById("contenedorPerifericos");
+
+    if (!contenedorComponentes || !contenedorPerifericos) {
+        return;
+    }
+
+    productos.forEach(producto => {
+        const tarjeta = document.createElement("div");
+
+        tarjeta.innerHTML = `
+            <img src="${producto.imagen}" alt="${producto.nombre}">
+            <h4>${producto.nombre}</h4>
+            <p>Categoría: ${producto.categoria}</p>
+            <p>Precio: $${producto.precio}</p>
+            <button>Agregar al carrito</button>
+        `;
+
+        if (producto.categoria === "Componentes") {
+            contenedorComponentes.appendChild(tarjeta);
+        } else if (producto.categoria === "Periféricos") {
+            contenedorPerifericos.appendChild(tarjeta);
+        }
+    });
+}
+
+mostrarProductos();
