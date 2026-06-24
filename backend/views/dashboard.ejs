@@ -22,6 +22,15 @@
                         $<%= prod.precio %> 
                         (<%= prod.activo ? 'Activo' : 'Inactivo' %>)
                     </li>
+                    <form action="/admin/producto/toggle/<%= prod.id %>" method="POST" style="display:inline;" onsubmit="return confirm('Estas seguro?');">
+                        <button type="submit">
+                            <%= prod.activo ? 'Desactivar (Ocultar)' : 'Activar (Mostrar)' %>
+                        </button>
+                    </form>
+
+                    <form action="/admin/producto/eliminar/<%= prod.id %>" method="POST" style="display:inline;" onsubmit="return confirm('Estas seguro?');">
+                        <button type="submit">Eliminar</button>
+                    </form>
                 <% }) %>
             </ul>
         <% } %>

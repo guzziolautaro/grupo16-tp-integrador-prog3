@@ -26,3 +26,41 @@ exports.postAddProduct = async (req, res) => {
         res.status(500).send(error.message);
     }
 };
+
+exports.postToggleProducto = async (req, res) => {
+    try {
+        const prod = await Producto.findByPk(req.params.id);
+        if (prod) {
+            prod.activo = !prod.activo;
+            await prod.save();
+        }
+        res.redirect('/admin/dashboard');
+    } catch (e) {
+        res.status(500).send("Error: " + e.message);
+    }
+};
+
+exports.postToggleProducto = async (req, res) => {
+    try {
+        const prod = await Producto.findByPk(req.params.id);
+        if (prod) {
+            prod.activo = !prod.activo;
+            await prod.save();
+        }
+        res.redirect('/admin/dashboard');
+    } catch (e) {
+        res.status(500).send("Error:" + e.message);
+    }
+};
+
+exports.postEliminarProducto = async (req, res) => {
+    try {
+        const prod = await Producto.findByPk(req.params.id);
+        if (prod) {
+            await prod.destroy();
+        }
+        res.redirect('/admin/dashboard');
+    } catch (e) {
+        res.status(500).send("Error: " + e.message);
+    }
+};
