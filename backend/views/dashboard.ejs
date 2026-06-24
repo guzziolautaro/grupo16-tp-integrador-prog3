@@ -9,5 +9,47 @@
 
     <h1>Dashboard</h1>
 
+        <main>
+        <h2>Productos en el Sistema</h2>
+        <% if (productos.length === 0) { %>
+            <p>Vacio</p>
+        <% } else { %>
+            <ul>
+                <% productos.forEach(prod => { %>
+                    <li>
+                        <strong><%= prod.nombre %></strong> - 
+                        [<%= prod.categoria %>] - 
+                        $<%= prod.precio %> 
+                        (<%= prod.activo ? 'Activo' : 'Inactivo' %>)
+                    </li>
+                <% }) %>
+            </ul>
+        <% } %>
+
+        <hr>
+
+        <h2>Nuevo Producto</h2>
+        
+        <form action="/admin/producto/nuevo" method="POST" enctype="multipart/form-data">
+            <p>
+                <label>Nombre:</label><br>
+                <input type="text" name="nombre" required>
+            </p>
+            <p>
+                <label>Categoría:</label><br>
+                <input type="text" name="categoria" required>
+            </p>
+            <p>
+                <label>Precio ($):</label><br>
+                <input type="number" name="precio" step="0.01" required>
+            </p>
+            <p>
+                <label>Imagen del Producto:</label><br>
+                <input type="file" name="imagen" accept="image/*" required>
+            </p>
+            <button type="submit">Guardar</button>
+        </form>
+    </main>
+
 </body>
 </html>
