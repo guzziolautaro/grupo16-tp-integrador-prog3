@@ -203,3 +203,31 @@ nav a:hover {
 .btn-cancelar:hover {
     background-color: #4b5563;
 }
+
+.ticket {
+    background-color: #f9fafb;
+    border: 2px dashed #111827;
+    border-radius: 14px;
+    padding: 25px;
+    margin: 25px auto;
+    max-width: 600px;
+    text-align: left;
+}
+
+.ticket h4 {
+    margin-bottom: 5px;
+}
+
+.ticket-producto {
+    padding: 12px 0;
+    border-bottom: 1px solid #d1d5db;
+}
+
+.ticket-producto:last-child {
+    border-bottom: none;
+}
+
+.ticket-total {
+    text-align: right;
+    color: #2563eb;
+}

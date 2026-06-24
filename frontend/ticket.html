@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="icons/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket - HardwarePoint</title>
+</head>
+<body>
+
+    <header>
+        <h1>HardwarePoint</h1>
+        <p>Grupo 16 - Ignacio Guzman, Lautaro Guzzio y Michael Moya</p>
+
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="productos.html" id="linkTienda">Tienda</a>
+            <a href="carrito.html" id="linkCarrito">Carrito</a>
+        </nav>
+    </header>
+
+    <main class="main-productos">
+        <h2>Ticket de compra</h2>
+
+        <section id="ticketCompra" class="ticket">
+            <p><strong>Cliente:</strong> <span id="ticketCliente"></span></p>
+            <p><strong>Empresa:</strong> HardwarePoint</p>
+
+            <hr>
+
+            <div id="ticketProductos">
+                
+            </div>
+
+            <hr>
+
+            <h3 id="ticketTotal"></h3>
+        </section>
+
+        <button onclick="reiniciarCompra()">Salir / Nueva compra</button>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
