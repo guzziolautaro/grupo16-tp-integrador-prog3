@@ -161,7 +161,13 @@ function mostrarCarrito() {
             <img src="${producto.imagen}" alt="${producto.nombre}">
             <h4>${producto.nombre}</h4>
             <p>Precio unitario: $${producto.precio}</p>
-            <p>Cantidad: ${producto.cantidad}</p>
+
+            <div class="cantidad-carrito">
+                <button onclick="restarCantidad(${producto.id})">-</button>
+                <span>${producto.cantidad}</span>
+                <button onclick="sumarCantidad(${producto.id})">+</button>
+            </div>
+
             <p class="precio">Subtotal: $${subtotal}</p>
         `;
 
@@ -172,3 +178,31 @@ function mostrarCarrito() {
 }
 
 mostrarCarrito();
+
+function sumarCantidad(idProducto) {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    const productoEnCarrito = carrito.find(producto => producto.id === idProducto);
+
+    if (productoEnCarrito) {
+        productoEnCarrito.cantidad++;
+    }
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+
+    mostrarCarrito();
+}
+
+function restarCantidad(idProducto) {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    const productoEnCarrito = carrito.find(producto => producto.id === idProducto);
+
+    if (productoEnCarrito && productoEnCarrito.cantidad > 1) {
+        productoEnCarrito.cantidad--;
+    }
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+
+    mostrarCarrito();
+}

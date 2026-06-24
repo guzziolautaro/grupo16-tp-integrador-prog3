@@ -79,3 +79,16 @@ img {
 .main-productos {
     max-width: 1000px;
 }
+
+.cantidad-carrito {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.cantidad-carrito span {
+    font-weight: bold;
+    font-size: 18px;
+}
