@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="icons/Favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito - HardwarePoint</title>
+</head>
+<body>
+
+    <header>
+        <img src="img/logo-hardwarepoint.png" alt="Logo HardwarePoint" class="logo-principal">
+        <p>Grupo 16 - Ignacio Guzman, Lautaro Guzzio y Michael Moya</p>
+
+            <nav>
+                <a href="index.html">Inicio</a>
+                <a href="productos.html" id="linkTienda">Tienda</a>
+                <a href="carrito.html" id="linkCarrito">Carrito</a>
+                <a href="http://localhost:3000/admin/dashboard" id="linkAdmin">Administrador</a>
+            </nav>
+    </header>
+
+    <main class="main-productos">
+        <h2>Carrito de compras</h2>
+
+        <div id="contenedorCarrito">
+
+        </div>
+
+        <h3 id="totalCarrito"></h3>
+
+
+        <button onclick="finalizarCompra()">Finalizar compra</button>
+    </main>
+    
+    <div id="modalConfirmacion" class="modal">
+        <div class="modal-contenido">
+            <h3>Confirmar compra</h3>
+            <p>¿Estás seguro de que querés finalizar la compra?</p>
+
+            <div class="modal-botones">
+                <button onclick="confirmarCompra()">Sí, confirmar</button>
+                <button class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalCarritoVacio" class="modal">
+        <div class="modal-contenido">
+            <h3>Carrito vacío</h3>
+            <p>No podés finalizar una compra sin productos en el carrito.</p>
+
+            <div class="modal-botones">
+                <button onclick="cerrarModalCarritoVacio()">Entendido</button>
+                <a href="productos.html">
+                    <button>Tienda</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

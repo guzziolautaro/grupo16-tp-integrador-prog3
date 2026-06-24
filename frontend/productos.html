@@ -1,34 +1,47 @@
-<!DOCTYPE html>
 <html lang="es">
 <head>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/png" href="icons/Favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HardwarePoint</title>
+    <title>Productos - HardwarePoint</title>
 </head>
 <body>
 
     <header>
         <img src="img/logo-hardwarepoint.png" alt="Logo HardwarePoint" class="logo-principal">
-        <p>Grupo 16 - Ignacio Guzman, Lautaro Guzzio y Michael Moya </p>
-        
+        <p>Grupo 16 - Ignacio Guzman, Lautaro Guzzio y Michael Moya</p>
+
             <nav>
                 <a href="index.html">Inicio</a>
                 <a href="productos.html" id="linkTienda">Tienda</a>
                 <a href="carrito.html" id="linkCarrito">Carrito</a>
                 <a href="http://localhost:3000/admin/dashboard" id="linkAdmin">Administrador</a>
-            </nav>   
+            </nav>
     </header>
 
-    <main>
-        <h2>Bienvenido al autoservicio</h2>
+    <main class="main-productos">
+        <h2>Productos disponibles</h2>
 
-        <p>Para comenzar, ingresá tu nombre:</p>
+        <p>Bienvenido/a, <span id="nombreMostrado"></span></p>
+            <a href="carrito.html">
+                <button>Ver carrito</button>
+            </a>
 
-        <input type="text" id="nombreUsuario" placeholder="Tu nombre">
-        <button onclick="guardarNombre()">Continuar</button>
-    </main>    
+        <section>
+            <h3>Componentes</h3>
+
+            <div id="contenedorComponentes">
+            </div>
+        </section>
+
+        <section>
+            <h3>Periféricos</h3>
+
+            <div id="contenedorPerifericos">
+            </div>
+        </section>
+    </main>
 
     <script src="script.js"></script>
 </body>
