@@ -30,42 +30,48 @@ const productos = [
         nombre: "Placa de video RTX 4060",
         categoria: "Componentes",
         precio: 450000,
-        imagen: "img/Placa_de_Video_RTX_4060.jpg"
+        imagen: "img/Placa_de_Video_RTX_4060.jpg",
+        activo: true
     },
     {
         id: 2,
         nombre: "Procesador Ryzen 5 5600",
         categoria: "Componentes",
         precio: 210000,
-        imagen: "img/Procesador_Ryzen_5_5600.jpg"
+        imagen: "img/Procesador_Ryzen_5_5600.jpg",
+        activo: true
     },
     {
         id: 3,
         nombre: "Memoria RAM 16GB DDR4",
         categoria: "Componentes",
         precio: 65000,
-        imagen: "img/Memoria_Ram_16gb_ddr4.jpg"
+        imagen: "img/Memoria_Ram_16gb_ddr4.jpg",
+        activo: true
     },
     {
         id: 4,
         nombre: "Teclado Redragon",
         categoria: "Periféricos",
         precio: 75000,
-        imagen: "img/Teclado_Redragon.jpg"
-    },
+        imagen: "img/Teclado_Redragon.jpg",
+        activo: true
+    },  
     {
         id: 5,
         nombre: "Mouse Logitech",
         categoria: "Periféricos",
         precio: 35000,
-        imagen: "img/Mouse_Logitech.jpg"
+        imagen: "img/Mouse_Logitech.jpg",
+        activo: true
     },
     {
         id: 6,
         nombre: "Auriculares Hyperx",
         categoria: "Periféricos",
         precio: 55000,
-        imagen: "img/Auriculares_Hyperx.jpg"
+        imagen: "img/Auriculares_Hyperx.jpg",
+        activo: true
     }
 ];
 
@@ -79,13 +85,14 @@ function mostrarProductos() {
 
     productos.forEach(producto => {
         const tarjeta = document.createElement("div");
+        tarjeta.classList.add("tarjeta-producto");
 
         tarjeta.innerHTML = `
             <img src="${producto.imagen}" alt="${producto.nombre}">
             <h4>${producto.nombre}</h4>
             <p>Categoría: ${producto.categoria}</p>
-            <p>Precio: $${producto.precio}</p>
-            <button>Agregar al carrito</button>
+            <p class="precio">Precio: $${producto.precio}</p>
+            <button onclick="agregarAlCarrito(${producto.id})">Agregar al carrito</button>
         `;
 
         if (producto.categoria === "Componentes") {
@@ -94,6 +101,30 @@ function mostrarProductos() {
             contenedorPerifericos.appendChild(tarjeta);
         }
     });
+}
+
+function agregarAlCarrito(idProducto) {
+    const productoEncontrado = productos.find(producto => producto.id === idProducto);
+
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    const productoEnCarrito = carrito.find(producto => producto.id === idProducto);
+
+    if (productoEnCarrito) {
+        productoEnCarrito.cantidad++;
+    } else {
+        carrito.push({
+            id: productoEncontrado.id,
+            nombre: productoEncontrado.nombre,
+            precio: productoEncontrado.precio,
+            imagen: productoEncontrado.imagen,
+            cantidad: 1
+        });
+    }
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+
+    alert(`Agregaste al carrito: ${productoEncontrado.nombre}`);
 }
 
 mostrarProductos();

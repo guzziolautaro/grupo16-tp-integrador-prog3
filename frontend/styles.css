@@ -28,8 +28,17 @@ input {
 }
 
 button {
-    padding: 10px 20px;
+    background-color: #111827;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #2563eb;
 }
 
 img {
@@ -37,4 +46,36 @@ img {
     max-width: 180px;
     height: 140px;
     object-fit: contain;
+}
+
+.tarjeta-producto {
+    border: 1px solid #ddd;
+    border-radius: 14px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tarjeta-producto:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+#contenedorComponentes,
+#contenedorPerifericos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.precio {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2563eb;
+}
+
+.main-productos {
+    max-width: 1000px;
 }
