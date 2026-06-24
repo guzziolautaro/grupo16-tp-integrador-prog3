@@ -8,5 +8,5 @@ function guardarNombre() {
 
     localStorage.setItem("nombreUsuario", nombre);
 
-    console.log("Nombre guardado:", nombre);
+    window.location.href = "productos.html";
 }
