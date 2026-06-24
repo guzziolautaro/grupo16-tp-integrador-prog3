@@ -252,15 +252,72 @@ function cerrarModal() {
 }
 
 function confirmarCompra() {
-    alert("Compra finalizada correctamente.");
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    const nombreCliente = localStorage.getItem("nombreUsuario");
+
+    let total = 0;
+
+    carrito.forEach(producto => {
+        total += producto.precio * producto.cantidad;
+    });
+
+    const ultimaCompra = {
+        cliente: nombreCliente,
+        productos: carrito,
+        total: total
+    };
+
+    localStorage.setItem("ultimaCompra", JSON.stringify(ultimaCompra));
 
     localStorage.removeItem("carrito");
 
-    cerrarModal();
-    mostrarCarrito();
+    window.location.href = "ticket.html";
 }
 
 function cerrarModalCarritoVacio() {
     const modalCarritoVacio = document.getElementById("modalCarritoVacio");
     modalCarritoVacio.style.display = "none";
 }
+
+function mostrarTicket() {
+    const ticketCliente = document.getElementById("ticketCliente");
+    const ticketProductos = document.getElementById("ticketProductos");
+    const ticketTotal = document.getElementById("ticketTotal");
+
+    if (!ticketCliente || !ticketProductos || !ticketTotal) {
+        return;
+    }
+
+    const ultimaCompra = JSON.parse(localStorage.getItem("ultimaCompra"));
+
+    if (!ultimaCompra) {
+        ticketProductos.innerHTML = "<p>No hay ninguna compra para mostrar.</p>";
+        ticketTotal.textContent = "Total: $0";
+        return;
+    }
+
+    ticketCliente.textContent = ultimaCompra.cliente;
+
+    ticketProductos.innerHTML = "";
+
+    ultimaCompra.productos.forEach(producto => {
+        const subtotal = producto.precio * producto.cantidad;
+
+        const itemTicket = document.createElement("div");
+        itemTicket.classList.add("ticket-producto");
+
+        itemTicket.innerHTML = `
+            <h4>${producto.nombre}</h4>
+            <p>Cantidad: ${producto.cantidad}</p>
+            <p>Precio unitario: $${producto.precio}</p>
+            <p>Subtotal: $${subtotal}</p>
+        `;
+
+        ticketProductos.appendChild(itemTicket);
+    });
+
+    ticketTotal.textContent = `Total: $${ultimaCompra.total}`;
+    ticketTotal.classList.add("ticket-total");
+}
+
+mostrarTicket();
