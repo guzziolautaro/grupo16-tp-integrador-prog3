@@ -142,7 +142,7 @@ function mostrarProductos() {
     contenedorComponentes.innerHTML = "";
     contenedorPerifericos.innerHTML = "";
 
-    productos
+    productos.data
         .filter(producto => producto.activo)
         .forEach(producto => {
             const tarjeta = document.createElement("div");
