@@ -278,3 +278,14 @@ nav a:hover {
         font-size: 18px;
     }
 }
+
+.logo-principal {
+    width: 260px;
+    max-width: 80%;
+    height: auto;
+    display: block;
+    margin: 0 auto 12px;
+    background-color: white;
+    border-radius: 14px;
+    padding: 8px 14px;
+}
