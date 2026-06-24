@@ -19,6 +19,9 @@ app.set('views', path.join(__dirname, 'views'));
 const apiRoutes = require('./routes/api.routes');
 app.use('/api', apiRoutes); 
 
+const adminRoutes = require('./routes/admin.routes');
+app.use('/admin', adminRoutes);
+
 sequelize.sync({ alter: true })
     .then(async () => {
         console.log("MySQL Database Tables synchronized successfully");
