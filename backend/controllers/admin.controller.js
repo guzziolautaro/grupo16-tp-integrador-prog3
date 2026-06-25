@@ -64,3 +64,36 @@ exports.postDeleteProduct = async (req, res) => {
         return res.status(500).json({ status: "error", mensaje: e.message });
     }
 };
+
+exports.postEditProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { nombre, categoria, precio } = req.body;
+        const prod = await Producto.findByPk(id);
+
+        if (!prod) {
+            return res.status(404).json({ status: "error", mensaje: "Product not found" });
+        }
+
+        prod.nombre = nombre;
+        prod.categoria = categoria;
+        prod.precio = parseFloat(precio);
+
+        if (req.file) {
+            const ext = path.extname(req.file.originalname);
+            const fullNewName = req.file.filename + ext;
+            
+            fs.renameSync(
+                req.file.path,
+                path.join(req.file.destination, fullNewName)
+            );
+            
+            prod.imagen = `/uploads/${fullNewName}`;
+        }
+
+        await prod.save();
+        return res.status(200).json({ status: "success", mensaje: "Product modified successfully." });
+    } catch (error) {
+        return res.status(500).json({ status: "error", mensaje: error.message });
+    }
+};

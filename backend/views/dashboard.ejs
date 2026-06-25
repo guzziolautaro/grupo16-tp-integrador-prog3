@@ -22,6 +22,8 @@
                         $<%= prod.precio %> 
                         (<%= prod.activo ? 'Activo' : 'Inactivo' %>)
                     </li>
+                    <button type="button" onclick="openEditModal('<%= prod.id %>', '<%= prod.nombre %>', '<%= prod.categoria %>', '<%= prod.precio %>')">Edit</button>
+
                     <button type="button" onclick="request('/admin/product/toggle/<%= prod.id %>', 'PUT', 'Estas seguro?')">
                         <%= prod.activo ? 'Desactivar' : 'Activar' %>
                     </button>
@@ -56,6 +58,19 @@
             </p>
             <button type="submit">Guardar</button>
         </form>
+
+        <div id="edit-panel" style="display: none; background: #eee; padding: 15px; margin-top: 20px; border: 1px solid #ccc;">
+            <h2>Modify Product</h2>
+            <form id="edit-form" onsubmit="submitEditForm(event)" enctype="multipart/form-data">
+                <input type="hidden" id="edit-id">
+                <p>Name: <input type="text" id="edit-name" required></p>
+                <p>Category: <input type="text" id="edit-category" required></p>
+                <p>Price: <input type="number" id="edit-price" step="0.01" required></p>
+                <p>New Image (Optional): <input type="file" id="edit-image" accept="image/*"></p>
+                <button type="submit">Save Changes</button>
+                <button type="button" onclick="document.getElementById('edit-panel').style.display='none'">Cancel</button>
+            </form>
+        </div>
     </main>
 
     <script>
@@ -72,6 +87,37 @@
         } catch (err) {
             console.error(err);
         }
+    }
+
+    function openEditModal(id, name, category, price) {
+        document.getElementById('edit-id').value = id;
+        document.getElementById('edit-name').value = name;
+        document.getElementById('edit-category').value = category;
+        document.getElementById('edit-price').value = price;
+        document.getElementById('edit-panel').style.display = 'block';
+    }
+
+    async function submitEditForm(event) {
+        event.preventDefault();
+        const id = document.getElementById('edit-id').value;
+        
+        const formData = new FormData();
+        formData.append('nombre', document.getElementById('edit-name').value);
+        formData.append('categoria', document.getElementById('edit-category').value);
+        formData.append('precio', document.getElementById('edit-price').value);
+        
+        const imgFile = document.getElementById('edit-image').files[0];
+        if (imgFile) {
+            formData.append('image', imgFile); 
+        }
+
+        const res = await fetch(`/admin/product/edit/${id}`, {
+            method: 'PUT',
+            body: formData
+        });
+
+        if (res.ok) window.location.reload();
+        else alert("Failed to modify product.");
     }
     </script>
 
