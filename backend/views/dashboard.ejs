@@ -22,15 +22,13 @@
                         $<%= prod.precio %> 
                         (<%= prod.activo ? 'Activo' : 'Inactivo' %>)
                     </li>
-                    <form action="/admin/producto/toggle/<%= prod.id %>" method="POST" style="display:inline;" onsubmit="return confirm('Estas seguro?');">
-                        <button type="submit">
-                            <%= prod.activo ? 'Desactivar (Ocultar)' : 'Activar (Mostrar)' %>
-                        </button>
-                    </form>
+                    <button type="button" onclick="request('/admin/producto/toggle/<%= prod.id %>', 'PUT', 'Estas seguro?')">
+                        <%= prod.activo ? 'Desactivar' : 'Activar' %>
+                    </button>
 
-                    <form action="/admin/producto/eliminar/<%= prod.id %>" method="POST" style="display:inline;" onsubmit="return confirm('Estas seguro?');">
-                        <button type="submit">Eliminar</button>
-                    </form>
+                    <button type="button" style="color: red;" onclick="request('/admin/producto/eliminar/<%= prod.id %>', 'DELETE', 'Estas seguro?')">
+                        Eliminar
+                    </button>
                 <% }) %>
             </ul>
         <% } %>
@@ -59,6 +57,23 @@
             <button type="submit">Guardar</button>
         </form>
     </main>
+
+    <script>
+    async function request(url, method, message) {
+        if (!confirm(message)) return;
+        
+        try {
+            const response = await fetch(url, { method: method });
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                alert("Error al procesar la request");
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+    </script>
 
 </body>
 </html>

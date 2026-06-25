@@ -47,9 +47,9 @@ exports.postToggleProducto = async (req, res) => {
             prod.activo = !prod.activo;
             await prod.save();
         }
-        res.redirect('/admin/dashboard');
+        return res.status(200).json({ status: "success", mensaje: "Estado cambiado" });
     } catch (e) {
-        res.status(500).send("Error:" + e.message);
+        return res.status(500).json({ status: "error", mensaje: e.message });
     }
 };
 
@@ -59,8 +59,8 @@ exports.postEliminarProducto = async (req, res) => {
         if (prod) {
             await prod.destroy();
         }
-        res.redirect('/admin/dashboard');
+        return res.status(200).json({ status: "success", mensaje: "Producto borrado" });
     } catch (e) {
-        res.status(500).send("Error: " + e.message);
+        return res.status(500).json({ status: "error", mensaje: e.message });
     }
 };
