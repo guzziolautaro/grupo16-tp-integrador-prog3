@@ -6,9 +6,9 @@ const multer = require('multer');
 const upload = multer({ dest: 'public/uploads/' }); 
 
 router.get('/dashboard', adminController.getDashboard);
-router.post('/producto/nuevo', upload.single('imagen'), adminController.postAddProduct);
+router.post('/product/new', upload.single('image'), adminController.postAddProduct);
 
-router.put('/producto/toggle/:id', adminController.postToggleProducto);
-router.delete('/producto/eliminar/:id', adminController.postEliminarProducto);
+router.put('/product/toggle/:id', adminController.postToggleProduct);
+router.delete('/product/delete/:id', adminController.postDeleteProduct);
 
 module.exports = router;

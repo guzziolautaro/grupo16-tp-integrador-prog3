@@ -27,7 +27,7 @@ exports.postAddProduct = async (req, res) => {
     }
 };
 
-exports.postToggleProducto = async (req, res) => {
+exports.postToggleProduct = async (req, res) => {
     try {
         const prod = await Producto.findByPk(req.params.id);
         if (prod) {
@@ -40,7 +40,7 @@ exports.postToggleProducto = async (req, res) => {
     }
 };
 
-exports.postToggleProducto = async (req, res) => {
+exports.postToggleProduct = async (req, res) => {
     try {
         const prod = await Producto.findByPk(req.params.id);
         if (prod) {
@@ -53,7 +53,7 @@ exports.postToggleProducto = async (req, res) => {
     }
 };
 
-exports.postEliminarProducto = async (req, res) => {
+exports.postDeleteProduct = async (req, res) => {
     try {
         const prod = await Producto.findByPk(req.params.id);
         if (prod) {
