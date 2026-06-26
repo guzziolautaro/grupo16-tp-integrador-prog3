@@ -64,3 +64,12 @@ exports.confirmarCompra = async (req, res) => {
         return res.status(500).json({ status: "error", mensaje: error.message });
     }
 };
+
+exports.getVentas = async (req, res) => {
+    try {
+        const ventas = await Venta.findAll({ include: Producto });
+        return res.status(200).json({ status: "success", data: ventas });
+    } catch (e) {
+        return res.status(500).json({ status: "error", mensaje: e.message });
+    }
+};
