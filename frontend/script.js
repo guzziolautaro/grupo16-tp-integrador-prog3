@@ -116,7 +116,7 @@ async function cargarProductos() {
     }
 
     try {
-        const respuesta = await fetch("http://localhost:3000/api/productos");
+        const respuesta = await fetch("http://localhost:3000/api/products");
 
         if (!respuesta.ok) {
             throw new Error("Error al obtener los productos");
