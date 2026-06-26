@@ -18,5 +18,6 @@ router.post('/upload/:id', uploadMiddleware, adminController.postUploadImage);
 router.delete('/product/delete/:id', adminController.postDeleteProduct);
 router.put('/product/toggle/:id', adminController.postToggleProduct);
 router.put('/product/edit/:id', uploadMiddleware, validateProductMiddleware, adminController.postEditProduct);
+router.get('/ventas', adminController.getVentasView);
 
 module.exports = router;

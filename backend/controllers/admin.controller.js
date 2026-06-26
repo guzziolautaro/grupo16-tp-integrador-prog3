@@ -1,4 +1,4 @@
-const { Producto, Usuario } = require('../models/index');
+const { Producto, Usuario, Venta } = require('../models/index');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -172,4 +172,13 @@ exports.createAdmin = async (req, res) => {
   } catch (e) {
     return res.status(500).json({ status: "error", mensaje: e.message });
   }
+};
+
+exports.getVentasView = async (req, res) => {
+    try {
+        const ventas = await Venta.findAll({ include: Producto });
+        res.render('ventas', { ventas });
+    } catch (e) {
+        res.status(500).send("Error al cargar ventas: " + e.message);
+    }
 };
