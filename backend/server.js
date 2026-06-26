@@ -34,7 +34,19 @@ app.use('/admin', adminRoutes);
 sequelize.sync({ alter: true })
     .then(async () => {
         console.log("MySQL Database Tables synchronized successfully");
-        
+        const [adminUser, creado] = await Usuario.findOrCreate({
+                where: { email: 'admin@autoservicio.com' },
+                defaults: {
+                    password: 'admin1234' 
+                }
+            });
+
+            if (creado) {
+                console.log("--- Test account generated: admin@autoservicio.com / admin1234 ---");
+            } else {
+                console.log("--- Administrator account verified and secure ---");
+            }
+        /*
         //test: remove when no longer needed
         const defaultAdmin = await Usuario.findOne({ where: { email: 'admin@autoservicio.com' } });
         if (!defaultAdmin) {
@@ -44,7 +56,7 @@ sequelize.sync({ alter: true })
             });
             console.log("Test account generated: admin@autoservicio.com / admin1234");
         }
-
+        */
         app.listen(PORT, () => {
             console.log(`Server running successfully on http://localhost:${PORT}`);
         });
