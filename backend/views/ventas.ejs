@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ventas - Autoservicio</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <nav>
+    <h3>Autoservicio</h3>
+    <div>
+      <a href="/admin/dashboard"><button>Dashboard</button></a>
+      <a href="/admin/ventas"><button>Ventas</button></a>
+      <a href="/admin/logout"><button>Cerrar sesión</button></a>
+    </div>
+  </nav>
+
+  <main>
+    <h1>Autoservicio</h1>
+    <p>Alumnos: Nombre1, Nombre2</p>
+
+    <h2>Ventas recientes</h2>
+    <hr>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Cliente</th>
+          <th>Fecha</th>
+          <th>Productos</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% ventas.forEach(venta => { %>
+          <tr>
+            <td><%= venta.id %></td>
+            <td><%= venta.nombreCliente %></td>
+            <td><%= venta.fecha %></td>
+            <td>
+              <ul>
+                <% venta.Productos.forEach(prod => { %>
+                  <li><%= prod.nombre %> (x<%= prod.DetalleVenta.cantidad %>)</li>
+                <% }) %>
+              </ul>
+            </td>
+            <td class="venta-total">$<%= venta.total %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </main>
+
+</body>
+</html>
