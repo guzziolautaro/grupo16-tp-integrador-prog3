@@ -39,7 +39,8 @@
 
         <h2>Nuevo Producto</h2>
         
-        <form action="/admin/product/new" method="POST" enctype="multipart/form-data">
+       <form action="/admin/product/new" method="POST" enctype="multipart/form-data">
+         <!--<form id="product-form" onsubmit="submitProductForm(event)">-->
             <p>
                 <label>Nombre:</label><br>
                 <input type="text" name="nombre" required>
@@ -119,6 +120,7 @@
         if (res.ok) window.location.reload();
         else alert("Failed to modify product.");
     }
+    
     </script>
 
 </body>

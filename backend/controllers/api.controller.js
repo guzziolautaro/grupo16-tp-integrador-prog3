@@ -12,7 +12,8 @@ exports.getProductosActivos = async (req, res) => {
 exports.confirmarCompra = async (req, res) => {
     const t = await sequelize.transaction();
     try {
-        const { nombreCliente, items } = req.body; // expects: [{ id, cantidad }]
+        const { 
+            ñnombreCliente, items } = req.body; // expects: [{ id, cantidad }]
 
         if (!nombreCliente || !items || items.length === 0) {
             await t.rollback();
