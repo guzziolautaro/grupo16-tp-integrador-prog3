@@ -11,19 +11,46 @@ exports.getDashboard = async (req, res) => {
 
 exports.postAddProduct = async (req, res) => {
     try {
-        const { nombre, categoria, precio } = req.body;
-        const imagenPath = req.file ? `/uploads/${req.file.filename}` : '/uploads/placeholder.jpg';
-
+        const { nombre, categoria, precio } = req.body;    
+        const imagenPath = req.file ? req.file.filename : 'placeholder.jpg';
         await Producto.create({
             nombre,
             categoria,
             precio: parseFloat(precio),
-            imagen: imagenPath,
+            imagen: imagenPath, // Guarda el nombre alfanumérico en la base de datos
             activo: true
         });
-        res.redirect('/admin/dashboard');
+
+        return res.redirect('/admin/dashboard');
     } catch (error) {
-        res.status(500).send(error.message);
+        return res.status(500).send("Error al guardar: " + error.message);
+    }
+};
+
+exports.postUploadImage = async (req, res) => {
+    try {
+        const idProducto = req.params.id;
+
+        if (!req.file) {
+            return res.status(400).json({ status: "error", mensaje: "No se seleccionó ninguna imagen." });
+        }
+
+        const producto = await Producto.findByPk(idProducto);
+        if (!producto) {
+            return res.status(404).json({ status: "error", mensaje: `El producto con ID ${idProducto} no existe.` });
+        }
+
+        const nombreArchivo = req.file.filename;
+        
+        await producto.update({ imagen: nombreArchivo });
+
+        return res.status(200).json({
+            status: "success",
+            mensaje: "Imagen subida correctamente al servidor mediante el endpoint /upload/:id",
+            archivoGuardado: nombreArchivo
+        });
+    } catch (e) {
+        return res.status(500).json({ status: "error", mensaje: e.message });
     }
 };
 
