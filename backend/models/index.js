@@ -1,4 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
+const bcrypt = require('bcrypt');
 
 const sequelize = new Sequelize(
     process.env.DB_NAME,
@@ -21,6 +22,10 @@ const Producto = sequelize.define('Producto', {
 const Usuario = sequelize.define('Usuario', {
     email: { type: DataTypes.STRING, allowNull: false, unique: true },
     password: { type: DataTypes.STRING, allowNull: false }
+});
+
+Usuario.beforeCreate(async (usuario) => {
+    usuario.password = await bcrypt.hash(usuario.password, 10);
 });
 
 const Venta = sequelize.define('Venta', {

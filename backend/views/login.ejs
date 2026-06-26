@@ -1,0 +1,12 @@
+<form method="POST" action="/admin/login">
+  <input type="email" id="email" name="email" placeholder="Email" required>
+  <input type="password" id="password" name="password" placeholder="Contraseña" required>
+  <% if (typeof error !== 'undefined') { %>
+    <p style="color: red;"><%= error %></p>
+  <% } %>
+  <button type="submit">Ingresar</button>
+</form>
+
+<button type="button" onclick="document.getElementById('email').value='admin@autoservicio.com'; document.getElementById('password').value='admin1234'">
+  Acceso rápido (testing)
+</button>

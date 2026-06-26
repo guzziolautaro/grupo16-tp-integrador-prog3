@@ -1,4 +1,6 @@
-const { Producto } = require('../models/index');
+const { Producto, Usuario } = require('../models/index');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 exports.getDashboard = async (req, res) => {
     try {
@@ -8,6 +10,40 @@ exports.getDashboard = async (req, res) => {
         res.status(500).send("Error de base de datos.");
     }
 };
+
+exports.getLoginView = (req, res) => {
+  res.render('login');
+};
+
+exports.postLogin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const usuario = await Usuario.findOne({ where: { email } });
+        if (!usuario) return res.render('login', { error: "Credenciales invalidas" });
+
+        const valid = await bcrypt.compare(password, usuario.password);
+        if (!valid) return res.render('login', { error: "Credenciales invalidas" });
+
+        const token = jwt.sign({ id: usuario.id, email: usuario.email }, process.env.JWT_SECRET, { expiresIn: '8h' });
+
+        res.cookie('token', token, {
+        httpOnly: true,
+        maxAge: 8 * 60 * 60 * 1000
+        });
+
+        return res.redirect('/admin/dashboard');
+    } catch (e) {
+        console.error(e);
+        return res.render('login', { error: "Error del servidor" });
+    }
+
+};
+
+exports.logout = (req, res) => {
+    res.clearCookie('token');
+    res.redirect('/admin/login');
+};
+
 
 exports.postAddProduct = async (req, res) => {
     try {

@@ -2,9 +2,16 @@ const express = require('express');
 const router = express.Router();
 const adminController = require('../controllers/admin.controller');
 const uploadMiddleware = require('../middlewares/upload.middleware');
+const authMiddleware = require('../middlewares/auth.middleware');
 
 const multer = require('multer');
 const upload = multer({ dest: 'public/uploads/' }); 
+
+router.get('/login', adminController.getLoginView);
+router.post('/login', adminController.postLogin);
+router.get('/logout', adminController.logout);
+
+router.use(authMiddleware);
 
 router.get('/dashboard', adminController.getDashboard);
 router.post('/product/new',uploadMiddleware, adminController.postAddProduct);
