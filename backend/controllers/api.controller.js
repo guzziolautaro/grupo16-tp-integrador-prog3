@@ -1,4 +1,6 @@
 const { sequelize, Producto, Venta, DetalleVenta } = require('../models/index');
+const path = require('path');
+const fs = require('fs');
 
 exports.getProductosActivos = async (req, res) => {
     try {
@@ -63,4 +65,22 @@ exports.confirmarCompra = async (req, res) => {
         await t.rollback();
         return res.status(500).json({ status: "error", mensaje: error.message });
     }
+};
+
+exports.getProductImage = async (req, res) => {
+  try {
+    const prod = await Producto.findByPk(req.params.id);
+    if (!prod) return res.status(404).json({ status: "error", mensaje: "Producto no encontrado" });
+
+    const filename = path.basename(prod.imagen);
+    const filePath = path.join(__dirname, '../public/uploads', filename);
+
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ status: "error", mensaje: "Imagen no encontrada" });
+    }
+
+    res.sendFile(filePath);
+  } catch (e) {
+    res.status(500).json({ status: "error", mensaje: e.message });
+  }
 };
