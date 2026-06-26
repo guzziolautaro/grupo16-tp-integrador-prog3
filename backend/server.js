@@ -6,9 +6,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const router = express.Router();
 
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
 // temporal cors bypass
 const cors = require('cors'); 
-app.use(cors({ origin: '*' }));
+app.use(cors({ origin: 'http://localhost:8000' }));
 
 const { sequelize, Usuario } = require('./models/index');
 

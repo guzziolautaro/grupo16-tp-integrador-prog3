@@ -1,4 +1,6 @@
-const { Producto } = require('../models/index');
+const { Producto, Usuario } = require('../models/index');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 exports.getDashboard = async (req, res) => {
     try {
@@ -8,6 +10,11 @@ exports.getDashboard = async (req, res) => {
         res.status(500).send("Error de base de datos.");
     }
 };
+
+exports.getLoginView = (req, res) => {
+  res.render('login');
+};
+
 
 exports.postAddProduct = async (req, res) => {
     try {
