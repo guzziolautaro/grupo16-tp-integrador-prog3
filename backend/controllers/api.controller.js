@@ -1,5 +1,11 @@
 const { sequelize, Producto, Venta, DetalleVenta } = require('../models/index');
 
+/**
+ * - Sin parametros: devuelve TODOS los productos
+ * - Con parametros (?page=1&limit=10): devuelve solo esa pagina de resultados,junto con un objeto "pagination"
+ *  indicando la pagina actual, limite, total de resultados y total de paginas.
+ *  Ej: GET /api/products?page=2&limit=8 -> productos 9 a 16
+ */
 exports.getProductosActivos = async (req, res) => {
     try {
         const { page, limit } = req.query;
