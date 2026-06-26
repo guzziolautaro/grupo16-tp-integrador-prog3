@@ -149,7 +149,7 @@ function mostrarProductos() {
             tarjeta.classList.add("tarjeta-producto");
 
             tarjeta.innerHTML = `
-                <img src="http://localhost:3000/api/products/image/${producto.id}" alt="${producto.nombre}">
+                <img src="${producto.imagen}" alt="${producto.nombre}">
                 <h4>${producto.nombre}</h4>
                 <p>Categoría: ${producto.categoria}</p>
                 <p class="precio">Precio: $${producto.precio}</p>
