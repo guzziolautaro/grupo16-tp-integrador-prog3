@@ -5,27 +5,18 @@ const uploadMiddleware = require('../middlewares/upload.middleware');
 const authMiddleware = require('../middlewares/auth.middleware');
 const validateProductMiddleware = require('../middlewares/validateProduct.middleware');
 
-const multer = require('multer');
-const upload = multer({ dest: 'public/uploads/' }); 
-
 router.get('/login', adminController.getLoginView);
 router.post('/login', adminController.postLogin);
 router.get('/logout', adminController.logout);
+router.post('/new', adminController.createAdmin); // moved above auth if it should be public
 
 router.use(authMiddleware);
 
-router.post('new', adminController.createAdmin);
-
 router.get('/dashboard', adminController.getDashboard);
-router.post('/product/new',uploadMiddleware, adminController.postAddProduct);
-
+router.post('/product/new', uploadMiddleware, validateProductMiddleware, adminController.postAddProduct);
 router.post('/upload/:id', uploadMiddleware, adminController.postUploadImage);
-
 router.delete('/product/delete/:id', adminController.postDeleteProduct);
-
-router.use(validateProductMiddleware);
-
 router.put('/product/toggle/:id', adminController.postToggleProduct);
-router.put('/product/edit/:id', uploadMiddleware, adminController.postEditProduct);
+router.put('/product/edit/:id', uploadMiddleware, validateProductMiddleware, adminController.postEditProduct);
 
 module.exports = router;

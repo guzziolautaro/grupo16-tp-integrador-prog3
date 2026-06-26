@@ -3,41 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Dashboard - Administrador</title>
 </head>
 <body>
+    <nav>
+        <h1>Dashboard</h1>
+        <a href="/admin/logout">
+            <button type="button">Cerrar sesión</button>
+        </a>
+    </nav>
+    
+    <main>
 
-    <h1>Dashboard</h1>
-
-        <main>
-        <h2>Productos en el Sistema</h2>
-        <% if (productos.length === 0) { %>
-            <p>Vacio</p>
-        <% } else { %>
-            <ul>
-                <% productos.forEach(prod => { %>
-                    <li>
-                        <strong><%= prod.nombre %></strong> - 
-                        [<%= prod.categoria %>] - 
-                        $<%= prod.precio %> 
-                        (<%= prod.activo ? 'Activo' : 'Inactivo' %>)
-                    </li>
-                    <button type="button" onclick="openEditModal('<%= prod.id %>', '<%= prod.nombre %>', '<%= prod.categoria %>', '<%= prod.precio %>')">Edit</button>
-
-                    <button type="button" onclick="request('/admin/product/toggle/<%= prod.id %>', 'PUT', 'Estas seguro?')">
-                        <%= prod.activo ? 'Desactivar' : 'Activar' %>
-                    </button>
-
-                    <button type="button" style="color: red;" onclick="request('/admin/product/delete/<%= prod.id %>', 'DELETE', 'Estas seguro?')">
-                        Eliminar
-                    </button>
-                <% }) %>
-            </ul>
-        <% } %>
-
-        <hr>
-
-        <h2>Nuevo Producto</h2>
+       <h2>Nuevo Producto</h2>
         
        <form action="/admin/product/new" method="POST" enctype="multipart/form-data">
          <!--<form id="product-form" onsubmit="submitProductForm(event)">-->
@@ -59,20 +38,49 @@
             </p>
             <button type="submit">Guardar</button>
         </form>
-        
-        <a href="/admin/logout">
-            <button type="button">Cerrar sesión</button>
-        </a>
 
-        <div id="edit-panel" style="display: none; background: #eee; padding: 15px; margin-top: 20px; border: 1px solid #ccc;">
-            <h2>Modify Product</h2>
+        <hr>
+
+        <h2>Productos en el Sistema</h2>
+        <% if (productos.length === 0) { %>
+            <p>Vacio</p>
+        <% } else { %>
+            <div id="productos">
+                <% productos.forEach(prod => { %>
+                    <div class="item">
+                        <div>
+                            <strong><%= prod.nombre %></strong> - 
+                                [<%= prod.categoria %>] - 
+                                $<%= prod.precio %> 
+                                (<%= prod.activo ? 'Activo' : 'Inactivo' %>)
+                        </div>
+                        <div>
+                            <button type="button" onclick="openEditModal('<%= prod.id %>', '<%= prod.nombre %>', '<%= prod.categoria %>', '<%= prod.precio %>')">Edit</button>
+        
+                            <button type="button" onclick="request('/admin/product/toggle/<%= prod.id %>', 'PUT', 'Estas seguro?')">
+                                <%= prod.activo ? 'Desactivar' : 'Activar' %>
+                            </button>
+        
+                            <button type="button" style="color: red;" onclick="request('/admin/product/delete/<%= prod.id %>', 'DELETE', 'Estas seguro?')">
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } %>
+
+        <hr>
+
+        <div id="edit-panel">
+            <h2>Modificar Producto</h2>
             <form id="edit-form" onsubmit="submitEditForm(event)" enctype="multipart/form-data">
                 <input type="hidden" id="edit-id">
-                <p>Name: <input type="text" id="edit-name" required></p>
-                <p>Category: <input type="text" id="edit-category" required></p>
-                <p>Price: <input type="number" id="edit-price" step="0.01" required></p>
-                <p>New Image (Optional): <input type="file" id="edit-image" accept="image/*"></p>
-                <button type="submit">Save Changes</button>
+                <p>Nombre: <input type="text" id="edit-name" required></p>
+                <p>Categoria: <input type="text" id="edit-category" required></p>
+                <p>Precio: <input type="number" id="edit-price" step="0.01" required></p>
+                <p>Nueva imagen (Optional): <input type="file" id="edit-image" accept="image/*"></p>
+                <button type="submit">Guardar</button>
                 <button type="button" onclick="document.getElementById('edit-panel').style.display='none'">Cancel</button>
             </form>
         </div>

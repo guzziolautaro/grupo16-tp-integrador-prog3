@@ -1,12 +1,24 @@
-<form method="POST" action="/admin/login">
-  <input type="email" id="email" name="email" placeholder="Email" required>
-  <input type="password" id="password" name="password" placeholder="Contraseña" required>
-  <% if (typeof error !== 'undefined') { %>
-    <p style="color: red;"><%= error %></p>
-  <% } %>
-  <button type="submit">Ingresar</button>
-</form>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Login - Administrador</title>
+</head>
 
-<button type="button" onclick="document.getElementById('email').value='admin@autoservicio.com'; document.getElementById('password').value='admin1234'">
-  Acceso rápido (testing)
-</button>
+<body>
+    <main>
+        <form method="POST" action="/admin/login">
+        <input type="email" id="email" name="email" placeholder="Email" required>
+        <input type="password" id="password" name="password" placeholder="Contraseña" required>
+        <% if (typeof error !== 'undefined') { %>
+            <p style="color: red;"><%= error %></p>
+        <% } %>
+        <button type="submit">Ingresar</button>
+        </form>
+    
+        <button type="button" onclick="document.getElementById('email').value='admin@autoservicio.com'; document.getElementById('password').value='admin1234'">
+        Acceso rápido (testing)
+        </button>
+    </main>
+
+</body>

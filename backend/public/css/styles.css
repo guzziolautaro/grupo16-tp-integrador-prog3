@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+* {
+    font-family: "Roboto", sans-serif;
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+    background-color: #1a213f;
+    color: white;
+}
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #00000018;
+    color: white;
+}
+main {
+    margin: auto;
+    max-width: 1000px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 900;
+    margin: 10px 0px;
+}
+h2 {
+    margin-top: 20px;
+}
+hr {
+    border: 1px solid #ffffff7e;
+    margin: 20px 0px;
+}
+button {
+    font-size: large;
+    font-weight: 800;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    border: none;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.24);
+}
+button:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+button:active {
+    background-color: rgba(255, 255, 255, 0.24);
+}
+input, select {
+    margin: 5px;
+    padding: 10px;
+    width: 100%;
+    border-radius: 3px;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.24);
+    color: white;
+}
+label {
+    font-size: large;
+    font-weight: 800;
+    margin-right: 5px;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+#productos {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.item {
+    width: 47%;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.24);
+}
+#edit-panel {
+    display: none;
+    background: rgba(0, 0, 0, 0.24);
+    border: none;
+    border-radius: 3px;
+    padding: 15px;
+    margin-top: 20px;
+}
