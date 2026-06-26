@@ -14,6 +14,8 @@ router.get('/logout', adminController.logout);
 
 router.use(authMiddleware);
 
+router.post('new', adminController.createAdmin);
+
 router.get('/dashboard', adminController.getDashboard);
 router.post('/product/new',uploadMiddleware, adminController.postAddProduct);
 
