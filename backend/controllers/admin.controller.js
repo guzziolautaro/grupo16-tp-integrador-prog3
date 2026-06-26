@@ -15,6 +15,14 @@ exports.getLoginView = (req, res) => {
   res.render('login');
 };
 
+exports.postLogin = async (req, res) => {
+
+};
+
+exports.logout = (req, res) => {
+    
+};
+
 
 exports.postAddProduct = async (req, res) => {
     try {
