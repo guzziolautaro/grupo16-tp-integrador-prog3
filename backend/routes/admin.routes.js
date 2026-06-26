@@ -3,6 +3,7 @@ const router = express.Router();
 const adminController = require('../controllers/admin.controller');
 const uploadMiddleware = require('../middlewares/upload.middleware');
 const authMiddleware = require('../middlewares/auth.middleware');
+const validateProductMiddleware = require('../middlewares/validateProduct.middleware');
 
 const multer = require('multer');
 const upload = multer({ dest: 'public/uploads/' }); 
@@ -18,9 +19,11 @@ router.post('/product/new',uploadMiddleware, adminController.postAddProduct);
 
 router.post('/upload/:id', uploadMiddleware, adminController.postUploadImage);
 
+router.delete('/product/delete/:id', adminController.postDeleteProduct);
+
+router.use(validateProductMiddleware);
+
 router.put('/product/toggle/:id', adminController.postToggleProduct);
 router.put('/product/edit/:id', uploadMiddleware, adminController.postEditProduct);
-
-router.delete('/product/delete/:id', adminController.postDeleteProduct);
 
 module.exports = router;
