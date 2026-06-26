@@ -4,7 +4,7 @@ import { agregarAlCarrito } from "./carrito.js";
 export let productos = [];
 
 let paginaActual = 1;
-const productosPorPagina = 4;
+const productosPorPagina = 6;
 
 export async function cargarProductos() {
     const contenedorComponentes = document.getElementById("contenedorComponentes");
