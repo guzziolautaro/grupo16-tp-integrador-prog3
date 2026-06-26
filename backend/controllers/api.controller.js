@@ -2,8 +2,33 @@ const { sequelize, Producto, Venta, DetalleVenta } = require('../models/index');
 
 exports.getProductosActivos = async (req, res) => {
     try {
-        const productos = await Producto.findAll({ where: { activo: true } });
-        return res.status(200).json({ status: "success", data: productos });
+        const { page, limit } = req.query;
+
+        if (!page && !limit) {
+            const productos = await Producto.findAll({ where: { activo: true } });
+            return res.status(200).json({ status: "success", data: productos });
+        }
+
+        const pageNum = parseInt(page) || 1;
+        const limitNum = parseInt(limit) || 10;
+        const offset = (pageNum - 1) * limitNum;
+
+        const { count, rows } = await Producto.findAndCountAll({
+            where: { activo: true },
+            limit: limitNum,
+            offset
+        });
+
+        return res.status(200).json({
+            status: "success",
+            data: rows,
+            pagination: {
+                page: pageNum,
+                limit: limitNum,
+                total: count,
+                totalPages: Math.ceil(count / limitNum)
+            }
+        });
     } catch (e) {
         return res.status(500).json({ status: "error", mensaje: e.message });
     }
@@ -13,7 +38,7 @@ exports.confirmarCompra = async (req, res) => {
     const t = await sequelize.transaction();
     try {
         const { 
-            ñnombreCliente, items } = req.body; // expects: [{ id, cantidad }]
+            nombreCliente, items } = req.body; // expects: [{ id, cantidad }]
 
         if (!nombreCliente || !items || items.length === 0) {
             await t.rollback();
@@ -62,5 +87,14 @@ exports.confirmarCompra = async (req, res) => {
     } catch (error) {
         await t.rollback();
         return res.status(500).json({ status: "error", mensaje: error.message });
+    }
+};
+
+exports.getVentas = async (req, res) => {
+    try {
+        const ventas = await Venta.findAll({ include: Producto });
+        return res.status(200).json({ status: "success", data: ventas });
+    } catch (e) {
+        return res.status(500).json({ status: "error", mensaje: e.message });
     }
 };

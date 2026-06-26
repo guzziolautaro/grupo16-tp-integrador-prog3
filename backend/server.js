@@ -9,9 +9,11 @@ const router = express.Router();
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-// temporal cors bypass
 const cors = require('cors'); 
-app.use(cors({ origin: 'http://localhost:8000' }));
+app.use(cors({ 
+    origin: process.env.FRONTEND_URL,
+    credentials: true
+}));
 
 const { sequelize, Usuario } = require('./models/index');
 

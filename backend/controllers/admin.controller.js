@@ -160,3 +160,16 @@ exports.postEditProduct = async (req, res) => {
         return res.status(500).json({ status: "error", mensaje: error.message });
     }
 };
+
+exports.createAdmin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const existing = await Usuario.findOne({ where: { email } });
+    if (existing) return res.status(409).json({ status: "error", mensaje: "El usuario ya existe" });
+
+    const usuario = await Usuario.create({ email, password });
+    return res.status(201).json({ status: "success", mensaje: "Administrador creado", id: usuario.id });
+  } catch (e) {
+    return res.status(500).json({ status: "error", mensaje: e.message });
+  }
+};
