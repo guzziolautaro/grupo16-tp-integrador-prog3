@@ -104,8 +104,53 @@
     </section>
 
     <section>
-        <h2>Estadísticas adicionales</h2>
-        <p>Acá se mostrarán dos estadísticas extra.</p>
+        <h2>Total recaudado por categoría</h2>
+
+        <% if (recaudadoPorCategoria.length === 0) { %>
+            <p>No hay datos suficientes para mostrar esta estadística.</p>
+        <% } else { %>
+            <table border="1" cellpadding="8" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Categoría</th>
+                        <th>Cantidad vendida</th>
+                        <th>Total recaudado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% recaudadoPorCategoria.forEach(item => { %>
+                        <tr>
+                            <td><%= item.categoria %></td>
+                            <td><%= item.totalVendido %></td>
+                            <td>$<%= item.totalRecaudado %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } %>
+    </section>
+
+    <section>
+        <h2>Resumen general de ventas</h2>
+
+        <table border="1" cellpadding="8" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Total de ventas</th>
+                    <th>Productos vendidos</th>
+                    <th>Recaudación total</th>
+                    <th>Promedio por venta</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><%= resumenGeneral.totalVentas %></td>
+                    <td><%= resumenGeneral.productosVendidos %></td>
+                    <td>$<%= resumenGeneral.recaudacionTotal %></td>
+                    <td>$<%= Number(resumenGeneral.promedioPorVenta).toFixed(2) %></td>
+                </tr>
+            </tbody>
+        </table>
     </section>
 
 </body>

@@ -230,10 +230,37 @@ exports.getRegistrosView = async (req, res) => {
             limit: 10
         });
 
+        const recaudadoPorCategoria = await sequelize.query(`
+            SELECT 
+                p.categoria AS categoria,
+                SUM(dv.cantidad) AS totalVendido,
+                SUM(dv.cantidad * dv.precioUnitario) AS totalRecaudado
+            FROM detalleventa dv
+            INNER JOIN productos p ON p.id = dv.ProductoId
+            GROUP BY p.categoria
+            ORDER BY totalRecaudado DESC;
+        `, {
+            type: Sequelize.QueryTypes.SELECT
+        });
+
+        const resumenGeneral = await sequelize.query(`
+            SELECT 
+                COUNT(DISTINCT v.id) AS totalVentas,
+                COALESCE(SUM(dv.cantidad), 0) AS productosVendidos,
+                COALESCE(SUM(v.total), 0) AS recaudacionTotal,
+                COALESCE(AVG(v.total), 0) AS promedioPorVenta
+            FROM venta v
+            LEFT JOIN detalleventa dv ON v.id = dv.VentaId;
+        `, {
+            type: Sequelize.QueryTypes.SELECT
+        });
+
         res.render('registros', {
             productosMasVendidos,
             ventasMasCaras,
-            loginLogs
+            loginLogs,
+            recaudadoPorCategoria,
+            resumenGeneral: resumenGeneral[0]
         });
 
     } catch (e) {
