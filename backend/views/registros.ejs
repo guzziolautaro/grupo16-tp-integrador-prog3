@@ -3,20 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Registros - HardwarePoint</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 
+<nav>
     <h1>Registros del administrador</h1>
 
-    <nav>
-        <a href="/admin/dashboard">Dashboard</a> |
-        <a href="/admin/ventas">Ventas</a> |
+    <div class="admin-links">
+        <a href="/admin/dashboard">Dashboard</a>
+        <a href="/admin/ventas">Ventas</a>
         <a href="/admin/logout">Cerrar sesión</a>
-    </nav>
+    </div>
+</nav>
+
+<main class="registros-main">
+
+    <section class="registro-header">
+        <div>
+            <h2>Panel de registros</h2>
+            <p>Consulta de ventas, productos, accesos y estadísticas del sistema.</p>
+        </div>
+
+        <a href="/admin/registros/excel">
+            <button class="btn-excel">Descargar Excel</button>
+        </a>
+    </section>
 
     <hr>
 
-    <section>
+    <section class="registro-card">
         <h2>10 productos más vendidos</h2>
 
         <% if (productosMasVendidos.length === 0) { %>
@@ -43,9 +59,9 @@
                 </tbody>
             </table>
         <% } %>
-    </section>
+    <section class="registro-card">
 
-    <section>
+    <section class="registro-card">
         <h2>10 ventas más caras</h2>
 
         <% if (ventasMasCaras.length === 0) { %>
@@ -72,9 +88,9 @@
                 </tbody>
             </table>
         <% } %>
-    </section>
+    <section class="registro-card">
 
-    <section>
+    <section class="registro-card">
         <h2>Logs de inicio de sesión</h2>
 
         <% if (loginLogs.length === 0) { %>
@@ -101,9 +117,9 @@
                 </tbody>
             </table>
         <% } %>
-    </section>
+    <section class="registro-card">
 
-    <section>
+    <section class="registro-card">
         <h2>Total recaudado por categoría</h2>
 
         <% if (recaudadoPorCategoria.length === 0) { %>
@@ -128,9 +144,9 @@
                 </tbody>
             </table>
         <% } %>
-    </section>
+    <section class="registro-card">
 
-    <section>
+    <section class="registro-card">
         <h2>Resumen general de ventas</h2>
 
         <table border="1" cellpadding="8" cellspacing="0">
@@ -151,7 +167,8 @@
                 </tr>
             </tbody>
         </table>
-    </section>
+    <section class="registro-card">
 
 </body>
 </html>
+</main>

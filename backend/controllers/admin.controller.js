@@ -1,5 +1,6 @@
 const { Producto, Usuario, Venta, DetalleVenta, LoginLog, sequelize } = require('../models/index');
 const { Sequelize } = require('sequelize');
+const ExcelJS = require('exceljs');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -266,5 +267,178 @@ exports.getRegistrosView = async (req, res) => {
     } catch (e) {
         console.error(e);
         res.status(500).send("Error al cargar registros: " + e.message);
+    }
+};
+
+exports.descargarRegistrosExcel = async (req, res) => {
+    try {
+        const productosMasVendidos = await sequelize.query(`
+            SELECT 
+                p.nombre AS nombre,
+                p.categoria AS categoria,
+                SUM(dv.cantidad) AS totalVendido,
+                SUM(dv.cantidad * dv.precioUnitario) AS totalRecaudado
+            FROM detalleventa dv
+            INNER JOIN productos p ON p.id = dv.ProductoId
+            GROUP BY p.id, p.nombre, p.categoria
+            ORDER BY totalVendido DESC
+            LIMIT 10;
+        `, {
+            type: Sequelize.QueryTypes.SELECT
+        });
+
+        const ventasMasCaras = await sequelize.query(`
+            SELECT 
+                id,
+                nombreCliente,
+                fecha,
+                total
+            FROM venta
+            ORDER BY total DESC
+            LIMIT 10;
+        `, {
+            type: Sequelize.QueryTypes.SELECT
+        });
+
+        const loginLogs = await LoginLog.findAll({
+            order: [['fechaHora', 'DESC']],
+            limit: 10
+        });
+
+        const recaudadoPorCategoria = await sequelize.query(`
+            SELECT 
+                p.categoria AS categoria,
+                SUM(dv.cantidad) AS totalVendido,
+                SUM(dv.cantidad * dv.precioUnitario) AS totalRecaudado
+            FROM detalleventa dv
+            INNER JOIN productos p ON p.id = dv.ProductoId
+            GROUP BY p.categoria
+            ORDER BY totalRecaudado DESC;
+        `, {
+            type: Sequelize.QueryTypes.SELECT
+        });
+
+        const resumenGeneral = await sequelize.query(`
+            SELECT 
+                COUNT(DISTINCT v.id) AS totalVentas,
+                COALESCE(SUM(dv.cantidad), 0) AS productosVendidos,
+                COALESCE(SUM(v.total), 0) AS recaudacionTotal,
+                COALESCE(AVG(v.total), 0) AS promedioPorVenta
+            FROM venta v
+            LEFT JOIN detalleventa dv ON v.id = dv.VentaId;
+        `, {
+            type: Sequelize.QueryTypes.SELECT
+        });
+
+        const workbook = new ExcelJS.Workbook();
+        workbook.creator = "HardwarePoint";
+        workbook.created = new Date();
+
+        const hojaProductos = workbook.addWorksheet("Productos más vendidos");
+
+        hojaProductos.columns = [
+            { header: "Producto", key: "nombre", width: 30 },
+            { header: "Categoría", key: "categoria", width: 20 },
+            { header: "Cantidad vendida", key: "totalVendido", width: 20 },
+            { header: "Total recaudado", key: "totalRecaudado", width: 20 }
+        ];
+
+        productosMasVendidos.forEach(item => {
+            hojaProductos.addRow({
+                nombre: item.nombre,
+                categoria: item.categoria,
+                totalVendido: item.totalVendido,
+                totalRecaudado: item.totalRecaudado
+            });
+        });
+
+        const hojaVentas = workbook.addWorksheet("Ventas más caras");
+
+        hojaVentas.columns = [
+            { header: "ID Venta", key: "id", width: 15 },
+            { header: "Cliente", key: "nombreCliente", width: 30 },
+            { header: "Fecha", key: "fecha", width: 20 },
+            { header: "Total", key: "total", width: 20 }
+        ];
+
+        ventasMasCaras.forEach(venta => {
+            hojaVentas.addRow({
+                id: venta.id,
+                nombreCliente: venta.nombreCliente,
+                fecha: venta.fecha,
+                total: venta.total
+            });
+        });
+
+        const hojaLogs = workbook.addWorksheet("Logs de inicio");
+
+        hojaLogs.columns = [
+            { header: "Email", key: "email", width: 35 },
+            { header: "IP", key: "ip", width: 25 },
+            { header: "Navegador", key: "userAgent", width: 80 },
+            { header: "Fecha y hora", key: "fechaHora", width: 25 }
+        ];
+
+        loginLogs.forEach(log => {
+            hojaLogs.addRow({
+                email: log.email,
+                ip: log.ip,
+                userAgent: log.userAgent,
+                fechaHora: log.fechaHora
+            });
+        });
+
+        const hojaCategorias = workbook.addWorksheet("Recaudado por categoría");
+
+        hojaCategorias.columns = [
+            { header: "Categoría", key: "categoria", width: 25 },
+            { header: "Cantidad vendida", key: "totalVendido", width: 20 },
+            { header: "Total recaudado", key: "totalRecaudado", width: 20 }
+        ];
+
+        recaudadoPorCategoria.forEach(item => {
+            hojaCategorias.addRow({
+                categoria: item.categoria,
+                totalVendido: item.totalVendido,
+                totalRecaudado: item.totalRecaudado
+            });
+        });
+
+        const hojaResumen = workbook.addWorksheet("Resumen general");
+
+        hojaResumen.columns = [
+            { header: "Total de ventas", key: "totalVentas", width: 20 },
+            { header: "Productos vendidos", key: "productosVendidos", width: 25 },
+            { header: "Recaudación total", key: "recaudacionTotal", width: 25 },
+            { header: "Promedio por venta", key: "promedioPorVenta", width: 25 }
+        ];
+
+        hojaResumen.addRow({
+            totalVentas: resumenGeneral[0].totalVentas,
+            productosVendidos: resumenGeneral[0].productosVendidos,
+            recaudacionTotal: resumenGeneral[0].recaudacionTotal,
+            promedioPorVenta: Number(resumenGeneral[0].promedioPorVenta).toFixed(2)
+        });
+
+        workbook.eachSheet((worksheet) => {
+            worksheet.getRow(1).font = { bold: true };
+        });
+
+        res.setHeader(
+            "Content-Type",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        );
+
+        res.setHeader(
+            "Content-Disposition",
+            "attachment; filename=registros_hardwarepoint.xlsx"
+        );
+
+        await workbook.xlsx.write(res);
+        res.end();
+
+    } catch (e) {
+        console.error(e);
+        res.status(500).send("Error al generar Excel: " + e.message);
     }
 };

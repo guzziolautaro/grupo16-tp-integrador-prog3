@@ -121,3 +121,116 @@ td ul {
 .venta-total {
   font-weight: 800;
 }
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 800;
+    margin-left: 15px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+.admin-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.registros-main {
+    max-width: 1150px;
+    margin: 30px auto;
+    padding: 0 20px 40px;
+}
+
+.registro-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    background-color: rgba(0, 0, 0, 0.24);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.registro-header p {
+    color: rgba(255, 255, 255, 0.75);
+    margin-top: 5px;
+}
+
+.btn-excel {
+    background-color: #1f8f4d;
+    padding: 10px 16px;
+    white-space: nowrap;
+}
+
+.btn-excel:hover {
+    background-color: #17703c;
+}
+
+.registro-card {
+    background-color: rgba(0, 0, 0, 0.24);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.registro-card h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.registro-card p {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.tabla-scroll {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.tabla-registros {
+    margin-top: 10px;
+    background-color: rgba(0, 0, 0, 0.18);
+}
+
+.tabla-registros th {
+    background-color: rgba(0, 0, 0, 0.35);
+    color: white;
+}
+
+.tabla-registros td {
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.tabla-registros th,
+.tabla-registros td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.tabla-registros tr:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 700px) {
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .admin-links {
+        flex-wrap: wrap;
+    }
+
+    .registro-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .btn-excel {
+        width: 100%;
+    }
+}

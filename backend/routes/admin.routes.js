@@ -20,5 +20,6 @@ router.put('/product/toggle/:id', adminController.postToggleProduct);
 router.put('/product/edit/:id', uploadMiddleware, validateProductMiddleware, adminController.postEditProduct);
 router.get('/ventas', adminController.getVentasView);
 router.get('/registros', adminController.getRegistrosView);
+router.get('/registros/excel', adminController.descargarRegistrosExcel);
 
 module.exports = router;
