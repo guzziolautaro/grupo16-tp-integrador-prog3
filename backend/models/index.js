@@ -56,6 +56,25 @@ const DetalleVenta = sequelize.define('DetalleVenta', {
 
 });
 
+const LoginLog = sequelize.define('LoginLog', {
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    ip: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    userAgent: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    fechaHora: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
+    }
+});
+
 Producto.belongsToMany(Venta, { through: DetalleVenta, foreignKey: 'ProductoId' });
 Venta.belongsToMany(Producto, { through: DetalleVenta, foreignKey: 'VentaId' });
 
@@ -65,4 +84,4 @@ Producto.hasMany(DetalleVenta, { foreignKey: 'ProductoId' });
 DetalleVenta.belongsTo(Venta, { foreignKey: 'VentaId' });
 Venta.hasMany(DetalleVenta, { foreignKey: 'VentaId' });
 
-module.exports = { sequelize, Producto, Usuario, Venta, DetalleVenta };
+module.exports = { sequelize, Producto, Usuario, Venta, DetalleVenta, LoginLog };

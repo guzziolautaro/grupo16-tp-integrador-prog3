@@ -76,7 +76,31 @@
 
     <section>
         <h2>Logs de inicio de sesión</h2>
-        <p>Acá se mostrarán los registros de acceso de administradores.</p>
+
+        <% if (loginLogs.length === 0) { %>
+            <p>No hay inicios de sesión registrados todavía.</p>
+        <% } else { %>
+            <table border="1" cellpadding="8" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>IP</th>
+                        <th>Navegador</th>
+                        <th>Fecha y hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% loginLogs.forEach(log => { %>
+                        <tr>
+                            <td><%= log.email %></td>
+                            <td><%= log.ip %></td>
+                            <td><%= log.userAgent %></td>
+                            <td><%= log.fechaHora.toLocaleString('es-AR') %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } %>
     </section>
 
     <section>

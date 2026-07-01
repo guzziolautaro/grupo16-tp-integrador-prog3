@@ -1,4 +1,4 @@
-const { Producto, Usuario, Venta, DetalleVenta, sequelize } = require('../models/index');
+const { Producto, Usuario, Venta, DetalleVenta, LoginLog, sequelize } = require('../models/index');
 const { Sequelize } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -25,11 +25,21 @@ exports.postLogin = async (req, res) => {
         const valid = (password === usuario.password) || await bcrypt.compare(password, usuario.password) ;
         if (!valid) return res.render('login', { error: "Credenciales invalidas" });
 
-        const token = jwt.sign({ id: usuario.id, email: usuario.email }, process.env.JWT_SECRET, { expiresIn: '8h' });
+        const token = jwt.sign(
+            { id: usuario.id, email: usuario.email },
+            process.env.JWT_SECRET,
+            { expiresIn: '8h' }
+        );
 
         res.cookie('token', token, {
-        httpOnly: true,
-        maxAge: 8 * 60 * 60 * 1000
+            httpOnly: true,
+            maxAge: 8 * 60 * 60 * 1000
+        });
+
+        await LoginLog.create({
+            email: usuario.email,
+            ip: req.ip,
+            userAgent: req.headers['user-agent']
         });
 
         return res.redirect('/admin/dashboard');
@@ -215,8 +225,15 @@ exports.getRegistrosView = async (req, res) => {
             type: Sequelize.QueryTypes.SELECT
         });
 
+        const loginLogs = await LoginLog.findAll({
+            order: [['fechaHora', 'DESC']],
+            limit: 10
+        });
+
         res.render('registros', {
-            productosMasVendidos
+            productosMasVendidos,
+            ventasMasCaras,
+            loginLogs
         });
 
     } catch (e) {
