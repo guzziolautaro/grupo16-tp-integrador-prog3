@@ -182,3 +182,11 @@ exports.getVentasView = async (req, res) => {
         res.status(500).send("Error al cargar ventas: " + e.message);
     }
 };
+
+exports.getRegistrosView = async (req, res) => {
+    try {
+        res.render('registros');
+    } catch (e) {
+        res.status(500).send("Error al cargar registros: " + e.message);
+    }
+};
