@@ -17,13 +17,61 @@
     <hr>
 
     <section>
-        <h2>Productos más vendidos</h2>
-        <p>Acá se mostrarán los 10 productos más vendidos.</p>
+        <h2>10 productos más vendidos</h2>
+
+        <% if (productosMasVendidos.length === 0) { %>
+            <p>No hay ventas registradas todavía.</p>
+        <% } else { %>
+            <table border="1" cellpadding="8" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Categoría</th>
+                        <th>Cantidad vendida</th>
+                        <th>Total recaudado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% productosMasVendidos.forEach(item => { %>
+                        <tr>
+                            <td><%= item.nombre %></td>
+                            <td><%= item.categoria %></td>
+                            <td><%= item.totalVendido %></td>
+                            <td>$<%= item.totalRecaudado %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } %>
     </section>
 
     <section>
-        <h2>Ventas más caras</h2>
-        <p>Acá se mostrarán las 10 ventas con mayor total.</p>
+        <h2>10 ventas más caras</h2>
+
+        <% if (ventasMasCaras.length === 0) { %>
+            <p>No hay ventas registradas todavía.</p>
+        <% } else { %>
+            <table border="1" cellpadding="8" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>ID Venta</th>
+                        <th>Cliente</th>
+                        <th>Fecha</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% ventasMasCaras.forEach(venta => { %>
+                        <tr>
+                            <td><%= venta.id %></td>
+                            <td><%= venta.nombreCliente %></td>
+                            <td><%= venta.fecha %></td>
+                            <td>$<%= venta.total %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } %>
     </section>
 
     <section>

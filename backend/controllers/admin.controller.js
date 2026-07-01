@@ -1,4 +1,5 @@
-const { Producto, Usuario, Venta } = require('../models/index');
+const { Producto, Usuario, Venta, DetalleVenta, sequelize } = require('../models/index');
+const { Sequelize } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -185,8 +186,41 @@ exports.getVentasView = async (req, res) => {
 
 exports.getRegistrosView = async (req, res) => {
     try {
-        res.render('registros');
+        const productosMasVendidos = await sequelize.query(`
+            SELECT 
+                p.id AS productoId,
+                p.nombre AS nombre,
+                p.categoria AS categoria,
+                SUM(dv.cantidad) AS totalVendido,
+                SUM(dv.cantidad * dv.precioUnitario) AS totalRecaudado
+            FROM detalleventa dv
+            INNER JOIN productos p ON p.id = dv.ProductoId
+            GROUP BY p.id, p.nombre, p.categoria
+            ORDER BY totalVendido DESC
+            LIMIT 10;
+        `, {
+            type: Sequelize.QueryTypes.SELECT
+        });
+
+        const ventasMasCaras = await sequelize.query(`
+            SELECT 
+                id,
+                nombreCliente,
+                fecha,
+                total
+            FROM venta
+            ORDER BY total DESC
+            LIMIT 10;
+        `, {
+            type: Sequelize.QueryTypes.SELECT
+        });
+
+        res.render('registros', {
+            productosMasVendidos
+        });
+
     } catch (e) {
+        console.error(e);
         res.status(500).send("Error al cargar registros: " + e.message);
     }
 };

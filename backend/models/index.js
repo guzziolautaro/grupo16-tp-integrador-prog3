@@ -59,4 +59,10 @@ const DetalleVenta = sequelize.define('DetalleVenta', {
 Producto.belongsToMany(Venta, { through: DetalleVenta, foreignKey: 'ProductoId' });
 Venta.belongsToMany(Producto, { through: DetalleVenta, foreignKey: 'VentaId' });
 
+DetalleVenta.belongsTo(Producto, { foreignKey: 'ProductoId' });
+Producto.hasMany(DetalleVenta, { foreignKey: 'ProductoId' });
+
+DetalleVenta.belongsTo(Venta, { foreignKey: 'VentaId' });
+Venta.hasMany(DetalleVenta, { foreignKey: 'VentaId' });
+
 module.exports = { sequelize, Producto, Usuario, Venta, DetalleVenta };
