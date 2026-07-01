@@ -40,6 +40,36 @@ exports.getProductosActivos = async (req, res) => {
     }
 };
 
+exports.getProductoPorId = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const producto = await Producto.findOne({
+            where: {
+                id,
+                activo: true
+            }
+        });
+
+        if (!producto) {
+            return res.status(404).json({
+                status: "error",
+                mensaje: "Producto no encontrado."
+            });
+        }
+
+        return res.status(200).json({
+            status: "success",
+            data: producto
+        });
+    } catch (e) {
+        return res.status(500).json({
+            status: "error",
+            mensaje: e.message
+        });
+    }
+};
+
 exports.confirmarCompra = async (req, res) => {
     const t = await sequelize.transaction();
     try {

@@ -299,3 +299,49 @@ nav a:hover {
     background-color: #f3e8ff;
     border: 2px solid #7e22ce;
 }
+
+
+.seccion-detalle {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.contenedor-detalle {
+    display: flex;
+    justify-content: center;
+}
+
+.tarjeta-detalle {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    background-color: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tarjeta-detalle img {
+    width: 280px;
+    height: 280px;
+    object-fit: contain;
+}
+
+.info-detalle {
+    max-width: 400px;
+}
+
+.info-detalle h3 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.info-detalle p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.info-detalle button {
+    margin-top: 20px;
+}

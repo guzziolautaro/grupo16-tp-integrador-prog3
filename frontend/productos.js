@@ -57,6 +57,11 @@ function mostrarProductos() {
             <h4>${producto.nombre}</h4>
             <p>Categoría: ${producto.categoria}</p>
             <p class="precio">Precio: $${producto.precio}</p>
+
+            <button onclick="window.location.href='detalle.html?id=${producto.id}'">
+                Ver detalle
+            </button>
+
             <button onclick="agregarAlCarrito(${producto.id})">
                 Agregar al carrito
             </button>
